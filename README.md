@@ -24,3 +24,8 @@ A port number of the target Sonos devices.
 # Usage
 
 If the target Sonos device starts playing new track, the infomation will be notified to the next node. Enjoy!  
+
+
+# Special Thanks
+
+ - https://www.npmjs.com/package/sonos
