@@ -4,7 +4,7 @@ The most simple node for Sonos ever.
 
 ![ポキオ Sonos IFTTT](https://lh3.googleusercontent.com/EL4CbWEkowVlXIqRIj1fy_TFtY896akj4HCRswZMzlEGuzsDPb-txWcreQ34KQhR2p4p3EYh4zWiradQS-f6kvtQ9QQfS7kM_HG9lNOE2wq6JjguI0wcfI5ScDkyWH7U4M_RjEx-uwM=s600 "ポキオ Sonos IFTTT")
 
-This node receives music track updates from Sonos devices and notifies track infomation to the next node.
+This node receives music track updates from Sonos devices and notifies track infomation to the next node. Sonos devices must be on the same local network.
 
 
 # Settings
