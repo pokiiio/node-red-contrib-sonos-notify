@@ -8,23 +8,26 @@ module.exports = function (RED) {
         var Sonos = require('sonos');
 
         if (!address || !port) {
-            return;
+            Sonos.DeviceDiscovery((device) => {
+                address = device.host;
+                port = device.port;
+
+                var device = new Sonos.Sonos(address, port);
+
+                device.on('CurrentTrack', (track) => {
+                    if (!track || track.uri === lastUri) {
+                        return;
+                    }
+
+                    lastUri = track.uri;
+
+                    var msg = {};
+                    msg.event = 'CurrentTrack';
+                    msg.payload = track;
+                    node.send(msg);
+                })
+            })
         }
-
-        var device = new Sonos.Sonos(address, port);
-
-        device.on('CurrentTrack', (track) => {
-            if (!track || track.uri === lastUri) {
-                return;
-            }
-
-            lastUri = track.uri;
-
-            var msg = {};
-            msg.event = 'CurrentTrack';
-            msg.payload = track;
-            node.send(msg);
-        })
     }
     RED.nodes.registerType("sonos-notify", SonosNotifyNode);
 }
