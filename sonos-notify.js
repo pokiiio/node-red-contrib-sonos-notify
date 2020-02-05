@@ -34,6 +34,7 @@ module.exports = function (RED) {
 
             var msg = {};
             msg.event = 'CurrentTrack';
+            msg.address = address;
             msg.payload = track;
             node.send(msg);
         })
