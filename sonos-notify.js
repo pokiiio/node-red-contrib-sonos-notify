@@ -4,14 +4,22 @@ module.exports = function (RED) {
         var node = this;
         var address = config.address;
         var port = config.port;
-        var lastUri = '';
         var Sonos = require('sonos');
 
         if (!address || !port) {
-            return;
+            Sonos.DeviceDiscovery((device) => {
+                address = device.host;
+                port = device.port;
+                registerListener(node, address, port);
+            })
         }
 
+        registerListener(node, address, port);
+    }
+
+    function registerListener(node, address, port) {
         var device = new Sonos.Sonos(address, port);
+        var lastUri = '';
 
         device.on('CurrentTrack', (track) => {
             if (!track || track.uri === lastUri) {
@@ -26,5 +34,6 @@ module.exports = function (RED) {
             node.send(msg);
         })
     }
+
     RED.nodes.registerType("sonos-notify", SonosNotifyNode);
 }
