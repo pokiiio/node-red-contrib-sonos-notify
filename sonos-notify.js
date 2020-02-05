@@ -23,14 +23,14 @@ module.exports = function (RED) {
 
     function registerListener(node, address, port) {
         var device = new Sonos.Sonos(address, port);
-        var lastUri = '';
+        var lastTitle = '';
 
         device.on('CurrentTrack', (track) => {
-            if (!track || track.uri == lastUri) {
+            if (!track || track.title == lastTitle) {
                 return;
             }
 
-            lastUri = track.uri;
+            lastTitle = track.title;
 
             var msg = {};
             msg.event = 'CurrentTrack';
