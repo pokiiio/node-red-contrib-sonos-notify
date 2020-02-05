@@ -1,20 +1,24 @@
 module.exports = function (RED) {
+    var Sonos = require('sonos');
+
     function SonosNotifyNode(config) {
         RED.nodes.createNode(this, config);
         var node = this;
         var address = config.address;
         var port = config.port;
-        var Sonos = require('sonos');
 
         if (!address || !port) {
-            Sonos.DeviceDiscovery((device) => {
-                address = device.host;
-                port = device.port;
-                registerListener(node, address, port);
+            Sonos.DeviceDiscovery().once('DeviceAvailable', device => {
+                device.getAllGroups()
+                    .then(groups => {
+                        groups.forEach(group => {
+                            registerListener(node, group.host, group.port);
+                        })
+                    })
             })
+        } else {
+            registerListener(node, address, port);
         }
-
-        registerListener(node, address, port);
     }
 
     function registerListener(node, address, port) {
@@ -22,7 +26,7 @@ module.exports = function (RED) {
         var lastUri = '';
 
         device.on('CurrentTrack', (track) => {
-            if (!track || track.uri === lastUri) {
+            if (!track || track.uri == lastUri) {
                 return;
             }
 
