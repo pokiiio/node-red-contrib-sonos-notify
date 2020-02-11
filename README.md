@@ -9,15 +9,15 @@ This node receives music track updates from Sonos devices and notifies track inf
 
 # Settings
 
-To use this node, following parameters are required.
+To use this node, no configuration required. This node will search Sonos devices on the local network and notify music update of all Sonos devices found.
+
+
+If you configure parameters below, you can also specify a Sonos device which you want to get notify from. 
 
  - Address
      - A local IP address of the target Sonos device.
  - Port
      - A port number of the target Sonos devices. 
-
-## Experimental Feature : Auto Device Discovery (from ver. 0.1.0)
-If parameters above are not configured, this node will search Sonos devices on the local network and notify music update of all Sonos devices found.
 
 # Usage
 
