@@ -19,6 +19,11 @@ If you configure parameters below, you can also specify a Sonos device which you
  - Port
      - A port number of the target Sonos devices. 
 
+And from 0.1.7, this node supports more events like `Volume` and `PlayState`. It can be enabled from properties of the node.
+
+![ポキオ Node-RED Sonos](https://lh3.googleusercontent.com/sDfTjlGjKgWsBaJMuabJJ3PR6MegaXUvyx3gb3a2H-nkniTpZaOGNh5dNackDWwoysAltz2TaTyTtTOYtBOjiOG8T4VTPvSKDlilRFol060IOXaQsF7Y1eeixql20oYIVqtTXbJ9KmQ=s600 "ポキオ Node-RED Sonos")
+
+
 # Usage
 
 If the target Sonos device starts playing new track, the infomation will be notified to the next node. Enjoy!  
