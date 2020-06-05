@@ -24,79 +24,91 @@ module.exports = function (RED) {
 
     function registerListener(node, address, port, moreEvents) {
         var device = new Sonos.Sonos(address, port);
+        var deviceName = '';
         var lastTitle = '';
         var lastNextTitle = '';
 
-        device.on('CurrentTrack', (track) => {
-            if (!track || track.title == lastTitle) {
+        device.getName().then(name => {
+            deviceName = name;
+
+            device.on('CurrentTrack', (track) => {
+                if (!track || track.title == lastTitle) {
+                    return;
+                }
+
+                lastTitle = track.title;
+
+                var msg = {};
+                msg.name = deviceName;
+                msg.event = 'CurrentTrack';
+                msg.address = address;
+                msg.payload = track;
+                node.send(msg);
+            })
+
+            if (!moreEvents) {
                 return;
             }
 
-            lastTitle = track.title;
+            device.on('NextTrack', (track) => {
+                if (!track || track.title == lastNextTitle) {
+                    return;
+                }
 
-            var msg = {};
-            msg.event = 'CurrentTrack';
-            msg.address = address;
-            msg.payload = track;
-            node.send(msg);
-        })
+                lastNextTitle = track.title;
 
-        if (!moreEvents) {
-            return;
-        }
+                var msg = {};
+                msg.name = deviceName;
+                msg.event = 'NextTrack';
+                msg.address = address;
+                msg.payload = track;
+                node.send(msg);
+            })
 
-        device.on('NextTrack', (track) => {
-            if (!track || track.title == lastNextTitle) {
-                return;
-            }
+            device.on('PlayState', (state) => {
+                var msg = {};
+                msg.name = deviceName;
+                msg.event = 'PlayState';
+                msg.address = address;
+                msg.payload = state;
+                node.send(msg);
+            })
 
-            lastNextTitle = track.title;
+            device.on('AVTransport', (transport) => {
+                var msg = {};
+                msg.name = deviceName;
+                msg.event = 'AVTransport';
+                msg.address = address;
+                msg.payload = transport;
+                node.send(msg);
+            })
 
-            var msg = {};
-            msg.event = 'NextTrack';
-            msg.address = address;
-            msg.payload = track;
-            node.send(msg);
-        })
+            device.on('Volume', (volume) => {
+                var msg = {};
+                msg.name = deviceName;
+                msg.event = 'Volume';
+                msg.address = address;
+                msg.payload = volume;
+                node.send(msg);
+            })
 
-        device.on('PlayState', (state) => {
-            var msg = {};
-            msg.event = 'PlayState';
-            msg.address = address;
-            msg.payload = state;
-            node.send(msg);
-        })
+            device.on('Muted', (mute) => {
+                var msg = {};
+                msg.name = deviceName;
+                msg.event = 'Muted';
+                msg.address = address;
+                msg.payload = mute;
+                node.send(msg);
+            })
 
-        device.on('AVTransport', (transport) => {
-            var msg = {};
-            msg.event = 'AVTransport';
-            msg.address = address;
-            msg.payload = transport;
-            node.send(msg);
-        })
-
-        device.on('Volume', (volume) => {
-            var msg = {};
-            msg.event = 'Volume';
-            msg.address = address;
-            msg.payload = volume;
-            node.send(msg);
-        })
-
-        device.on('Muted', (mute) => {
-            var msg = {};
-            msg.event = 'Muted';
-            msg.address = address;
-            msg.payload = mute;
-            node.send(msg);
-        })
-
-        device.on('RenderingControl', (eventData) => {
-            var msg = {};
-            msg.event = 'RenderingControl';
-            msg.address = address;
-            msg.payload = eventData;
-            node.send(msg);
+            device.on('RenderingControl', (eventData) => {
+                var msg = {};
+                msg.name = deviceName;
+                msg.event = 'RenderingControl';
+                msg.address = address;
+                msg.payload = eventData;
+                node.send(msg);
+            })
         })
     }
 
