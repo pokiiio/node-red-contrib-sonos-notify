@@ -19,14 +19,38 @@ If you configure parameters below, you can also specify a Sonos device which you
  - Port
      - A port number of the target Sonos devices. 
 
-And from 0.1.7, this node supports more events like `Volume` and `PlayState`. It can be enabled from properties of the node.
 
-![ポキオ Node-RED Sonos](https://lh3.googleusercontent.com/sDfTjlGjKgWsBaJMuabJJ3PR6MegaXUvyx3gb3a2H-nkniTpZaOGNh5dNackDWwoysAltz2TaTyTtTOYtBOjiOG8T4VTPvSKDlilRFol060IOXaQsF7Y1eeixql20oYIVqtTXbJ9KmQ=s600 "ポキオ Node-RED Sonos")
+> And from 0.1.7, this node supports more events like `Volume` and `PlayState`. It can be enabled from properties of the node.
+> 
+> ![ポキオ Node-RED Sonos](https://lh3.googleusercontent.com/sDfTjlGjKgWsBaJMuabJJ3PR6MegaXUvyx3gb3a2H-nkniTpZaOGNh5dNackDWwoysAltz2TaTyTtTOYtBOjiOG8T4VTPvSKDlilRFol060IOXaQsF7Y1eeixql20oYIVqtTXbJ9KmQ=s600 "ポキオ Node-RED Sonos")
 
 
 # Usage
 
 If the target Sonos device starts playing new track, the infomation will be notified to the next node. Enjoy!  
+
+Following is a sample output.
+
+```json
+{
+    "name": "Living Room",   // a name of Sonos player.
+    "event": "CurrentTrack",   // event kind. if `More Events` is checked, this may vary.
+    "address": "192.168.1.35",   // an ip address of Sonos player.
+    "payload": {   // current track info is included in `payload`.
+        "id": null,
+        "parentID": null,
+        "title": "Scream & Shout",
+        "artist": "will.i.am",
+        "album": "#willpower",
+        "albumArtURI": "https://i.scdn.co/image/ab67616d0000b2738165b764264fb3705d7367d6",
+        "uri": "x-sonos-spotify:spotify:track:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "duration": 282,
+        "queuePosition": 1
+    },
+    "_msgid": "xxxxxxxx.xxxxxx"
+}
+```
+
 
 
 # Special Thanks
