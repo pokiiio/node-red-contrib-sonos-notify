@@ -27,6 +27,6 @@
     }
   },
   "dependencies": {
-    "sonos": "^1.13.0"
+    "sonos": "^1.13.1"
   }
 }
